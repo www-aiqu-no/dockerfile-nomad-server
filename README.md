@@ -1,7 +1,12 @@
 # dockerfile-nomad-server
-![GitHub All Releases](https://img.shields.io/github/downloads/www-aiqu-no/dockerfile-nomad-server/total)
 ![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/aiqu/nomad-server)
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/aiqu/nomad-server)
+![GitHub last commit](https://img.shields.io/github/last-commit/www-aiqu-no/dockerfile-nomad-server)
+
+Download from [Docker Hub](https://hub.docker.com/r/aiqu/nomad-server):
+```bash
+docker pull aiqu/nomad-server:<version>
+```
 
 ## Description
 Dockerized image for running nomad server on e.g. K8S, docker-swarm or similar
