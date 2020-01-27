@@ -73,6 +73,7 @@ EXPOSE 4647
 EXPOSE 4648 4648/udp
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN ["chmod","+x","/usr/local/bin/docker-entrypoint.sh"]
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # By default you'll get an insecure single-node development server that exposes
