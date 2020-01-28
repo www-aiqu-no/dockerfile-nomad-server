@@ -1,11 +1,8 @@
-# Multi-stage build for creating Nomad-server docker image
-# Use: docker build --no-cache -<<'EOF'
-
-# Runtime image
+# Runtime image version
 ARG BASE_NAME="ubuntu"
 ARG BASE_VERSION="20.04"
 
-# This is the release of Nomad to pull in.
+# External package versions
 ARG NOMAD_VERSION="0.10.2"
 
 # ------------------------------------------------------------------------------
@@ -35,7 +32,7 @@ RUN set -eux \
 # ------------------------------------------------------------------------------
 
 FROM ${BASE_NAME}:${BASE_VERSION}
-MAINTAINER Rune Rænneseth <rune.ronneseth@aiqu.no>
+MAINTAINER Rune Rønneseth <rune.ronneseth@aiqu.no>
 
 ARG NOMAD_VERSION
 ENV NOMAD_VERSION ${NOMAD_VERSION}
@@ -46,6 +43,7 @@ RUN set -eux \
   && addgroup nomad \
   && adduser --shell /usr/bin/bash --ingroup nomad nomad
 
+# Create folders
 RUN set -eux \
   && mkdir -p /nomad/data \
   && mkdir -p /nomad/config \
@@ -83,7 +81,7 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN set -eux \
   && chmod +x /usr/local/bin/docker-entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh","/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # By default you'll get an insecure single-node development server that
 # exposes a web UI and HTTP endpoints, and bootstraps itself.

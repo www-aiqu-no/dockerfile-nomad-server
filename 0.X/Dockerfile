@@ -1,17 +1,22 @@
-ARG BASE_NAME
-ARG BASE_VERSION
+# Base image for installing nomad on
+ARG BASE_NAME=alpine
+ARG BASE_VERSION=3
 
-FROM ${BASE_NAME:-alpine}:${BASE_VERSION:-3.9}
-MAINTAINER Rune Rænneseth <rune.ronneseth@aiqu.no>
+# External package versions
+ARG NOMAD_VERSION="0.10.2"
+ARG GLIBC_VERSION="2.30-r0"
+
+FROM ${BASE_NAME}:${BASE_VERSION}
+MAINTAINER Rune Rønneseth <rune.ronneseth@aiqu.no>
 
 # This is the release of Nomad to pull in
 ARG NOMAD_VERSION
-ENV NOMAD_VERSION      ${NOMAD_VERSION:-"0.10.2"}
+ENV NOMAD_VERSION      ${NOMAD_VERSION}
 ENV HASHICORP_RELEASES "https://releases.hashicorp.com"
 
 # This is the release of GLIBC to pull in
 ARG GLIBC_VERSION
-ENV GLIBC_VERSION  ${GLIBC_VERSION:-"2.30-r0"}
+ENV GLIBC_VERSION  ${GLIBC_VERSION}
 ENV GLIBC_RELEASES "https://github.com/andyshinn/alpine-pkg-glibc/releases"
 
 # Create a nomad user and group first so the IDs get set the same way, even as
@@ -55,7 +60,8 @@ RUN set -eux \
   && mkdir -p /nomad/config \
   && chown -R nomad:nomad /nomad
 
-# Expose the nomad data directory as a volume since there's mutable state in there.
+# Expose the nomad data directory as a volume since
+# there's mutable state in there.
 VOLUME /nomad/data
 
 # HTTP API: This is used by clients and servers to serve the HTTP API.
@@ -73,7 +79,9 @@ EXPOSE 4647
 EXPOSE 4648 4648/udp
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN ["chmod","+x","/usr/local/bin/docker-entrypoint.sh"]
+RUN set -eux \
+  && chmod +x /usr/local/bin/docker-entrypoint.sh
+
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # By default you'll get an insecure single-node development server that exposes
