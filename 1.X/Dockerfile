@@ -3,7 +3,7 @@ ARG BASE_NAME="ubuntu"
 ARG BASE_VERSION="20.04"
 
 # External package versions
-ARG NOMAD_VERSION="0.10.2"
+ARG NOMAD_VERSION="0.10.4"
 
 # ------------------------------------------------------------------------------
 
